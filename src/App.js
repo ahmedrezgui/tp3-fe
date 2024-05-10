@@ -13,6 +13,7 @@ function App() {
   const [input, setInput] = useState('');
   const [commentInput, setCommentInput] = useState('');
   const [activeMessage, setActiveMessage] = useState(null);
+  const [showCommentForm, setShowCommentForm] = useState(false);
 
 
   const messageListener = (message) => {
@@ -109,6 +110,10 @@ function App() {
     socket.emit('emoji-message', { msgId, emoji });
   };
 
+  const showComment = () => {
+    setShowCommentForm(!showCommentForm);
+  }
+
 
   return (
     <div>
@@ -120,16 +125,19 @@ function App() {
             <button onClick={() => handleLike(index, msg.likes)}>Like ({msg.likes})</button>
             <button onClick={() => handleEmoji(index, '👍')}>👍</button>
             <button onClick={() => handleEmoji(index, '❤️')}>❤️</button>
+            <button onClick={() => showComment()}>comment</button>
             <ul>
               {msg.comments.map((comment, commentIndex) => (
                 <li key={commentIndex}>{comment}</li>
               ))}
+              {showCommentForm && (
               <li>
                 <form onSubmit={(e) => handleCommentSubmit(e, index)}>
                   <input value={commentInput} onChange={(e) => setCommentInput(e.target.value)} />
-                  <button type="submit">Comment</button>
+                  <button type="submit">Send Comment</button>
                 </form>
               </li>
+              )}
             </ul>
 
             <ul>
