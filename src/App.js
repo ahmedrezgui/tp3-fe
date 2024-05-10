@@ -11,9 +11,9 @@ function App() {
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const [commentInput, setCommentInput] = useState('');
+  const [commentInput, setCommentInput] = useState({});
   const [activeMessage, setActiveMessage] = useState(null);
-  const [showCommentForm, setShowCommentForm] = useState(false);
+  const [showCommentForm, setShowCommentForm] = useState({});
 
 
   const messageListener = (message) => {
@@ -93,11 +93,20 @@ function App() {
     }
   };
 
+  const handleInputChange = (event, index) => {
+    const newInputs = {...commentInput};
+    newInputs[index] = event.target.value; // Make sure event and event.target are defined
+    setCommentInput(newInputs);
+  };
+
   const handleCommentSubmit = (e, msgIndex) => {
     e.preventDefault();
-    if (commentInput.trim() !== '') {
-      socket?.emit('comment-message', { msgIndex, comment: commentInput });
-      setCommentInput('');
+    const comment = commentInput[msgIndex];
+    if (comment && comment.trim() !== '') {
+      socket?.emit('comment-message', { msgIndex, comment: commentInput[msgIndex] });
+      const newCommentInput = { ...commentInput };
+      newCommentInput[msgIndex] = '';  
+      setCommentInput(newCommentInput);  
     }
   };
 
@@ -110,8 +119,11 @@ function App() {
     socket.emit('emoji-message', { msgId, emoji });
   };
 
-  const showComment = () => {
-    setShowCommentForm(!showCommentForm);
+  const showComment = (index) => {
+    setShowCommentForm(prevState => ({
+      ...prevState,
+      [index]: !prevState[index]  // Toggle visibility for the specific index
+    }));
   }
 
 
@@ -125,15 +137,15 @@ function App() {
             <button onClick={() => handleLike(index, msg.likes)}>Like ({msg.likes})</button>
             <button onClick={() => handleEmoji(index, '👍')}>👍</button>
             <button onClick={() => handleEmoji(index, '❤️')}>❤️</button>
-            <button onClick={() => showComment()}>comment</button>
+            <button onClick={() => showComment(index)}>comment</button>
             <ul>
               {msg.comments.map((comment, commentIndex) => (
                 <li key={commentIndex}>{comment}</li>
               ))}
-              {showCommentForm && (
+              {showCommentForm[index] && (
               <li>
                 <form onSubmit={(e) => handleCommentSubmit(e, index)}>
-                  <input value={commentInput} onChange={(e) => setCommentInput(e.target.value)} />
+                  <input value={commentInput[index] || ''} onChange={(e) => handleInputChange(e,index)} />
                   <button type="submit">Send Comment</button>
                 </form>
               </li>
