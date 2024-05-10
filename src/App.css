@@ -1,7 +1,13 @@
+/* General Application Styling */
 .App {
   text-align: center;
+  font-family: 'Arial', sans-serif;  /* Improved typography */
+  color: #333;  /* Darker text for better readability */
+  background: #f4f4f4;  /* Lighter background for contrast */
+  padding: 20px;
 }
 
+/* Logo Styling */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -13,6 +19,16 @@
   }
 }
 
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Header Styling */
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -22,17 +38,63 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);  /* Adding subtle shadow for depth */
 }
 
+/* Link Styling */
 .App-link {
   color: #61dafb;
+  text-decoration: none;  /* Remove underline */
+  font-weight: bold;  /* Make it bold for emphasis */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Additional Styles for List and Forms */
+ul {
+  list-style: none;  /* Remove default list styling */
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;  /* Add space between list items */
+  background: white;  /* Background for each list item */
+  padding: 10px;
+  border-radius: 5px;  /* Rounded corners for modern look */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);  /* Subtle shadows for depth */
+}
+
+input, button {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+}
+
+input {
+  width: 300px;  /* Ensuring sufficient input width */
+  border: 1px solid #ccc;  /* Subtle border for inputs */
+}
+
+button {
+  background-color: #4c78af;  /* Green background for buttons */
+  color: white;
+  cursor: pointer;  /* Cursor pointer to indicate it's clickable */
+}
+
+button:hover {
+  background-color: #456ba0;  /* Slightly darker on hover for feedback */
+}
+
+form {
+  margin-top: 20px;
+}
+
+/* Responsive Design Adjustments */
+@media (max-width: 600px) {
+  .App-header {
+    font-size: 5vmin;  /* Smaller text on smaller screens */
   }
-  to {
-    transform: rotate(360deg);
+
+  input {
+    width: 90%;  /* More responsive width for smaller screens */
   }
 }
